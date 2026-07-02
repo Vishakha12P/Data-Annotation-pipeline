@@ -1,0 +1,13 @@
+venv/
+__pycache__/
+*.pyc
+data/raw_videos/
+data/frames/
+data/primary/
+data/secondary/
+*.pt
+*.mp4
+dataset_primary.yaml
+dataset_secondary.yaml
+build_log.txt
+install_log.txt

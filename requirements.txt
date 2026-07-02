@@ -1,0 +1,12 @@
+ultralytics>=8.2.0
+opencv-python>=4.8.0
+pyyaml>=6.0
+tqdm>=4.65.0
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Note: install torch/torchvision FIRST with the correct CUDA index-url for your GPU, e.g.:
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
+# THEN run: pip install -r requirements.txt
+# (ultralytics will reuse the already-installed CUDA-enabled torch instead of
+#  pulling a fresh CPU-only one)

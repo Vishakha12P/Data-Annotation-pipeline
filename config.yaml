@@ -1,0 +1,61 @@
+# =============================================================
+# Config for the YOLO + YOLO-World annotation pipeline
+# No custom CUDA extensions required — GPU works automatically
+# if PyTorch detects CUDA (which yours already does).
+# =============================================================
+
+video:
+  video_list: "data/video_list.txt"
+  # Number of frames to skip between processed frames.
+  # 0 = every frame, 2 = every 3rd frame, etc.
+  # For long CCTV footage, sample sparsely — you don't need every frame.
+  skip_frames: 74
+
+model:
+  # "cuda" will be used automatically if available; falls back to "cpu" otherwise.
+  device: "cuda"
+
+  # Pretrained COCO model — already knows "person" out of the box, no training needed.
+  # Options (fastest -> most accurate): yolov8n.pt, yolov8s.pt, yolov8m.pt, yolov8l.pt
+  person_model: "yolov8s.pt"
+
+  # Open-vocabulary model — detects custom text-prompted classes, no training needed.
+  # Options: yolov8s-worldv2.pt, yolov8m-worldv2.pt, yolov8l-worldv2.pt
+  ppe_model: "yolov8s-worldv2.pt"
+
+primary:
+  # Only "person" is needed here — YOLO's built-in class, already trained.
+  conf_threshold: 0.35
+
+secondary:
+  # Crop padding around each detected person before running PPE detection,
+  # as a fraction of the person box size.
+  crop_padding: 0.15
+
+  # Your brewery PPE compliance classes (text prompts for YOLO-World).
+  classes:
+    - "safety shoes"
+    - "hand gloves"
+    - "safety goggles"
+    - "hi-vis vest"
+    - "apron"
+    - "helmet"
+    - "arm sleeve"
+
+  # YOLO-World often needs a lower confidence threshold than closed-set YOLO,
+  # since it's working from open-vocabulary text prompts.
+  conf_threshold: 0.15
+
+output:
+  frames_dir: "data/frames"
+
+  primary_labels_dir: "data/primary/labels"
+  primary_viz_dir: "data/primary/visualizations"
+
+  secondary_images_dir: "data/secondary/images"
+  secondary_labels_dir: "data/secondary/labels"
+  secondary_viz_dir: "data/secondary/visualizations"
+  secondary_metadata_dir: "data/secondary/metadata"
+
+  save_visualization: true
+  create_dataset_yaml: true
